@@ -7,13 +7,13 @@ A docker used to run AI Commits:
 
 ## Build container
 Remeber to get your **OPENAI_KEY** here: https://platform.openai.com/account/api-keys
-```
+```sh
 docker build --build-arg  OPENAI_KEY=<your_openai_key> --tag vlauciani/aicommits .
 ```
 
 ## Usage
 Go to your repo:
-```
+```sh
 git add <files...>
 docker run -it --rm -v ${HOME}/.gitconfig:/root/.gitconfig -v $(pwd):/git vlauciani/aicommits sh -c "cd /git && aicommits"
 git push
@@ -21,12 +21,12 @@ git push
 
 ### Tip
 To semplify, create an alias in your shell; for example:
-```
+```sh
 alias aic='docker run -it --rm -v ${HOME}/.gitconfig:/root/.gitconfig -v $(pwd):/git vlauciani/aicommits sh -c "cd /git && aicommits"'
 ```
 
 then:
-```
+```sh
 git add <files...>
 aic
 git push
