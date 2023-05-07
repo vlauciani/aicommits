@@ -1,18 +1,17 @@
 # aicommits
 
 ## Intro 
-A docker used to run AI Commits:
-- https://github.com/Nutlope/aicommits
+A docker used to run [AI Commits](https://github.com/Nutlope/aicommits) pacakge, without install Node.js on your host.
 
 
 ## Build container
-Remeber to get your **OPENAI_KEY** here: https://platform.openai.com/account/api-keys
+Remeber to get your `OPENAI_KEY` here: https://platform.openai.com/account/api-keys
 ```sh
 docker build --build-arg  OPENAI_KEY=<your_openai_key> --tag vlauciani/aicommits .
 ```
 
 ## Usage
-Go to your repo:
+Go to your repo, *stage* your files, run docker and finally *push*:
 ```sh
 git add <files...>
 docker run -it --rm -v ${HOME}/.gitconfig:/root/.gitconfig -v $(pwd):/git vlauciani/aicommits sh -c "cd /git && aicommits"
