@@ -31,6 +31,21 @@ aic
 git push
 ```
 
+### Do you get: `The current directory must be a Git repository!` ?
+In case of you receive the message:
+```sh
+┌   aicommits
+│
+└  ✖ The current directory must be a Git repository!
+```
+
+you need simply run, one time, the command:
+```sh
+git config --global --add safe.directory /git
+```
+
+and try again.
+
 # Contribute
 Thanks to your contributions!
 
