@@ -14,4 +14,4 @@ RUN apk update \
 
 RUN npm install -g aicommits \
   && npm update -g aicommits \
-  && aicommits config set OPENAI_KEY=${OPENAI_KEY}
+  && aicommits config set OPENAI_KEY=${OPENAI_KEY} type=conventional
