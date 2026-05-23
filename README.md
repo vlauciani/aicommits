@@ -5,9 +5,9 @@ A docker used to run [AI Commits](https://github.com/Nutlope/aicommits) pacakge,
 
 
 ## Build container
-Remeber to get your `OPENAI_KEY` here: https://platform.openai.com/account/api-keys
+Remeber to get your `OPENAI_API_KEY` here: https://platform.openai.com/account/api-keys
 ```sh
-docker build --build-arg  OPENAI_KEY=<your_openai_key> --tag vlauciani/aicommits .
+docker build --build-arg  OPENAI_API_KEY=<your_openai_key> --tag vlauciani/aicommits .
 ```
 
 ## Usage
@@ -55,5 +55,5 @@ Here is a list of users who already contributed to this repository: \
 </a>
 
 # Author
-(c) 2024 Valentino Lauciani valentino.lauciani[at]ingv.it
+(c) 2026 Valentino Lauciani valentino.lauciani[at]ingv.it
 

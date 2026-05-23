@@ -5,7 +5,7 @@ LABEL maintainer="Valentino Lauciani <valentino.lauciani@ingv.it>"
 ENV DEBIAN_FRONTEND=noninteractive
 ENV INITRD=No
 ENV FAKE_CHROOT=1
-ARG OPENAI_KEY=your_openapai_key
+ARG OPENAI_API_KEY=your_openapai_key
 
 # Could you refactor the code below AI!
 RUN apk update \
@@ -15,4 +15,4 @@ RUN apk update \
 
 RUN npm install -g aicommits \
     && npm update -g aicommits \
-    && aicommits config set OPENAI_KEY=${OPENAI_KEY} type=conventional
+    && aicommits config set OPENAI_API_KEY=${OPENAI_API_KEY} type=conventional
