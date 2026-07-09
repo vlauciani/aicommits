@@ -30,6 +30,12 @@ if ! REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
     exit 1
 fi
 
+# Surface which model this profile uses before the interactive session starts.
+# Trim whitespace/CR so a hand-edited profile still prints a clean name.
+MODEL="$(grep -E '^OPENAI_MODEL=' "${ENV_FILE}" | tail -n1 | cut -d= -f2- \
+    | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+echo "Model: ${MODEL:-<unset>}"
+
 exec docker run --rm -it \
     -v "${HOME}/.gitconfig:/root/.gitconfig" \
     -v "${REPO_ROOT}:/git" \
