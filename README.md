@@ -10,10 +10,26 @@ docker build --tag vlauciani/aicommits .
 No API key is needed at build time: all configuration is provided at run time.
 
 ## Install the launcher
-`bin/aic` is a thin wrapper around `docker run`. Put it in your PATH:
+`bin/aic` is a thin wrapper around `docker run`. Make it reachable in one of
+these ways.
+
+**Symlink into your PATH** (system-wide, needs `sudo`):
 ```sh
 sudo ln -s "$(pwd)/bin/aic" /usr/local/bin/aic
 ```
+
+**Add the `bin/` directory to your PATH** (no `sudo`, per user) — add to your
+`~/.bashrc` / `~/.zshrc`, adjusting the path to where you cloned the repo:
+```sh
+export PATH="/path/to/aicommits/bin:${PATH}"
+```
+
+**Define an alias** (no `sudo`, per user) — add to your `~/.bashrc` / `~/.zshrc`:
+```sh
+alias aic='/path/to/aicommits/bin/aic'
+```
+Extra arguments append after the alias, so `aic work` still selects the `work`
+profile.
 
 ## Configure a profile
 Profiles live in `~/.config/aicommits/<name>.env`. Start from the example:
@@ -37,9 +53,15 @@ The launcher mounts the repository root automatically, so you don't need to run
 it from the top level, and it handles the `safe.directory` setup for you.
 
 ### Push automatically
-Prefer committing and pushing in one step? Add an alias:
+Prefer committing and pushing in one step? For the default profile an alias is
+enough:
 ```sh
 alias aicp='aic && git push'
+```
+To also pass a profile (e.g. `aicp work`), use a function instead — an alias
+appends arguments at the end (`aic && git push work`), a function forwards them:
+```sh
+aicp() { aic "$@" && git push; }
 ```
 
 # Contribute
