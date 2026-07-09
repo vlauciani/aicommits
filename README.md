@@ -1,7 +1,7 @@
 # aicommits
 
 ## Intro
-A Docker image to run [AI Commits](https://github.com/Nutlope/aicommits) without installing Node.js on your host..
+A Docker image to run [AI Commits](https://github.com/Nutlope/aicommits) without installing Node.js on your host.
 
 ## Build
 ```sh
