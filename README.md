@@ -1,50 +1,46 @@
 # aicommits
 
-## Intro 
-A docker used to run [AI Commits](https://github.com/Nutlope/aicommits) pacakge, without install Node.js on your host.
+## Intro
+A Docker image to run [AI Commits](https://github.com/Nutlope/aicommits) without installing Node.js on your host.
 
-
-## Build container
-Remeber to get your `OPENAI_API_KEY` here: https://platform.openai.com/account/api-keys
+## Build
 ```sh
-docker build --build-arg  OPENAI_API_KEY=<your_openai_key> --tag vlauciani/aicommits .
+docker build --tag vlauciani/aicommits .
 ```
+No API key is needed at build time: all configuration is provided at run time.
+
+## Install the launcher
+`bin/aic` is a thin wrapper around `docker run`. Put it in your PATH:
+```sh
+sudo ln -s "$(pwd)/bin/aic" /usr/local/bin/aic
+```
+
+## Configure a profile
+Profiles live in `~/.config/aicommits/<name>.env`. Start from the example:
+```sh
+mkdir -p ~/.config/aicommits
+cp aicommits.env.example ~/.config/aicommits/default.env
+"${EDITOR}" ~/.config/aicommits/default.env
+```
+Add more files (e.g. `work.env`) to keep different keys, models or endpoints
+side by side.
 
 ## Usage
-Go to your repo, *stage* your files, run docker and finally *push*:
+From anywhere inside a git repository (any subdirectory works):
 ```sh
 git add <files...>
-docker run -it --rm -v ${HOME}/.gitconfig:/root/.gitconfig -v $(pwd):/git vlauciani/aicommits sh -c "cd /git && aicommits"
+aic            # uses the "default" profile
+aic work       # uses ~/.config/aicommits/work.env
 git push
 ```
+The launcher mounts the repository root automatically, so you don't need to run
+it from the top level, and it handles the `safe.directory` setup for you.
 
-### Tip
-To semplify, create an alias in your shell; for example:
+### Push automatically
+Prefer committing and pushing in one step? Add an alias:
 ```sh
-alias aic='docker run -it --rm -v ${HOME}/.gitconfig:/root/.gitconfig -v $(pwd):/git vlauciani/aicommits sh -c "cd /git && aicommits"'
+alias aicp='aic && git push'
 ```
-
-then:
-```sh
-git add <files...>
-aic
-git push
-```
-
-### Do you get: `The current directory must be a Git repository!` ?
-In case of you receive the message:
-```sh
-┌   aicommits
-│
-└  ✖ The current directory must be a Git repository!
-```
-
-you need simply run, one time, the command:
-```sh
-git config --global --add safe.directory /git
-```
-
-and try again.
 
 # Contribute
 Thanks to your contributions!
@@ -56,4 +52,3 @@ Here is a list of users who already contributed to this repository: \
 
 # Author
 (c) 2026 Valentino Lauciani valentino.lauciani[at]ingv.it
-

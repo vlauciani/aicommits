@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+#
+# Thin host-side launcher for the aicommits container.
+#
+# It resolves a named profile from a central directory, mounts the *repository
+# root* (not the current directory, which may be a subfolder without a .git),
+# and lets the container entrypoint do the actual configuration.
+#
+# Usage:  aic [profile]      # profile defaults to "default"
+
+set -euo pipefail
+
+readonly IMAGE="vlauciani/aicommits"
+readonly CONFIG_DIR="${HOME}/.config/aicommits"
+
+PROFILE="${1:-default}"
+ENV_FILE="${CONFIG_DIR}/${PROFILE}.env"
+
+if [ ! -f "${ENV_FILE}" ]; then
+    echo "aic: profile '${PROFILE}' not found: ${ENV_FILE}" >&2
+    echo "aic: create it from the example (aicommits.env.example)." >&2
+    exit 1
+fi
+
+# aicommits needs the repository root: staging is repo-wide and .git lives at
+# the top level. Resolving it here also yields a clean error when run outside a
+# repo, instead of aicommits' cryptic "must be a Git repository!".
+if ! REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+    echo "aic: not inside a git repository." >&2
+    exit 1
+fi
+
+exec docker run --rm -it \
+    -v "${HOME}/.gitconfig:/root/.gitconfig" \
+    -v "${REPO_ROOT}:/git" \
+    --env-file "${ENV_FILE}" \
+    "${IMAGE}"
