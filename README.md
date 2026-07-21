@@ -52,6 +52,10 @@ git push
 The launcher mounts the repository root automatically, so you don't need to run
 it from the top level, and it handles the `safe.directory` setup for you.
 
+`aic -h` (or `--help`) prints the usage and lists the profiles currently
+available in `~/.config/aicommits`. Asking for a profile that doesn't exist
+reports the expected path and points back to the help.
+
 ### Push automatically
 Prefer committing and pushing in one step? For the default profile an alias is
 enough:
